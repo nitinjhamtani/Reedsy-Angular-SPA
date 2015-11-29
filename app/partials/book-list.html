@@ -1,0 +1,70 @@
+<div id="top" class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-top" style="border-bottom: 1px solid #666 !important;">
+		<h1 class="homeTitle pull-left">Books Library</h1>
+		<a href="#/#/top" title="Top" class="btn btn-primary page-scroll home glyphicon glyphicon-plane pull-right"></a>
+	</div>
+  <div class="filters">
+	<form class="form-inline">
+		<div class="form-group">
+			<label for="orderProp">
+				Find me the best 
+			</label>
+			<select ng-model="orderProp" id="orderProp" class="form-control" ng-change="currentPage=0">
+			  <option value="">All</option>
+			  <option value="Non-Fiction">Non-Fiction</option>
+			  <option value="Fiction">Fiction</option>
+			</select>
+		</div>
+		<div class="form-group">
+				<label for="orderG">
+					books about
+				</label>
+				<select ng-model="orderG" id="orderG" class="form-control" ng-change="currentPage=0">
+				  <option value="">All</option>
+				  <option value="{{book.genre.name}}" ng-repeat="book in books | unique:'genre'">{{book.genre.name}}</option>
+				</select>
+			</div>
+			<div class="form-group col-lg-2 col-xs-12 col-sm-3">
+					<div class="input-group">
+						<input ng-model="query" id="query" class="form-control" placeholder="Search Books" ng-change="currentPage=0">
+						<span class="input-group-addon glyphicon glyphicon-search" id="basic-addon2"></span>
+					</div>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+<div class="row bookWrapper">
+  <div ng-repeat="book in books | filter:query | filter:(orderProp || undefined):true | filter:(orderG || undefined):true | orderBy:orderProp | startFrom:currentPage*pageSize | limitTo:pageSize" class="bookContent clearfix">
+    <div class="col-xs-8 col-sm-5 col-md-4 bookList clearfix">
+      <div>
+		<a href="#/books/{{book.id}}" ng-click="currentObj(book)"><img class="coverImg" ng-src="{{book.cover}}"></a>
+      </div> 
+      <div class="bookname">
+		<h4><a href="#/books/{{book.id}}" ng-click="currentObj(book)">{{book.name}}</a></h4>
+        <p><b><u>{{'by ' + book.author.name}}</u></b></p>
+        <p><i>{{book.genre.category}}{{', ' + book.genre.name}}</i></p>
+        <p><span class="right">{{book.published | date}}{{', ' + convertPublishedDate(book.published)}}</span></p>
+        <p><span class="glyphicon glyphicon-heart"></span>{{' ' + book.likes + ' '}} Likes</p>
+      </div>
+    </div>
+  </div> 
+</div>
+<div class="row navigation pagination-lg">
+  <ul class="pagination pagination-lg">
+    <li>
+      <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1" class="btn">
+			<span aria-hidden="true">&laquo;</span>
+	  </button>
+    </li>
+    <li><a href="javascript:void(0)">{{numberOfPages()==0 ? currentPage : currentPage+1}}</a></li>
+    <li><a href="javascript:void(0)">/</a></li>
+    <li><a href="javascript:void(0)">{{numberOfPages()}}</a></li>
+    <li>
+		<button ng-disabled="(currentPage + 1) == numberOfPages() || numberOfPages()==0" ng-click="currentPage=currentPage+1" class="btn">
+			<span aria-hidden="true">&raquo;</span>
+	  </button>
+    </li>
+  </ul>
+</nav>
+</div>

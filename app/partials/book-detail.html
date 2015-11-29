@@ -1,0 +1,45 @@
+<header id="header">
+		<div class="navbar navbar-default navbar-fixed-top">
+			<h1 class="details">{{book.name}} </h1>
+			<a href="#/books" class="btn btn-primary book-detail-home glyphicon glyphicon-home home"></a>
+		</div>
+</header>
+<div class="contents">
+	<div class="authorDetailsWrap">
+		<div class="authorDetails clearfix">
+			<p class="imgCover">
+				<img class="bookCover" ng-src="{{book.cover}}">
+			</p>
+			<h4 class="details second pull-right"align="">By <i>{{book.author.name}}</i></h4>
+			<h5 class="details description pull-left">{{book.description}}</h5>
+			<p class="details pull-left">Categories: <i><span>{{book.genre.category}}</span>, <span>{{book.genre.name}}</span></i></p>
+		</div>
+	</div>
+	<div class="authorIntroWrap">
+		<div class="authorIntro">
+			<h3 class="details"><u>Introduction</u></h3>
+			<ul class="contents">
+				<li class="contents" ng-repeat="content in contents">
+					<p>{{content}}</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+		<select ng-hide="true" ng-model="cat">
+			<option value="{{book.genre.name}}"></option>
+			<select ng-model="gen">
+				<option value="{{book.genre.category}}"></option>
+			</select>
+		</select>
+		<div>
+				<img class="author" ng-src="{{book.author.avatar}}">
+			<p>Written by <i>{{book.author.name}}</i></p>
+		</div>
+			<ol class="details newBooks" ng-controller="BookListCtrl">
+				<h3 class="suggestions"><u>Similar reading</u></h3>
+				<p>If you liked this book, we recommend you check out these emerging titles.</p>
+				<li class="suggestions" ng-repeat="book in books | filter:(gen || undefined):true | filter:(cat || undefined):true | limitTo:limit">
+					<a href="#/books">{{book.name }} by <i>{{ book.author.name}}</i></a>
+				</li>
+			</ol>
+	</div>
